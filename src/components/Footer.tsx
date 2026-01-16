@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { Phone, Mail, MapPin, Clock, Award } from "lucide-react";
-
+import schoolLogo from "@/assets/school-logo.jpeg";
 export function Footer() {
   return (
     <footer className="bg-primary text-primary-foreground">
@@ -10,9 +10,11 @@ export function Footer() {
           {/* School Info */}
           <div className="lg:col-span-1">
             <div className="flex items-center gap-3 mb-4">
-              <div className="w-12 h-12 rounded-full bg-secondary flex items-center justify-center">
-                <span className="text-secondary-foreground font-heading text-lg font-bold">DI</span>
-              </div>
+              <img 
+                src={schoolLogo} 
+                alt="Dunne's Institute Logo" 
+                className="w-12 h-12 object-contain rounded"
+              />
               <div>
                 <h3 className="font-heading text-xl font-bold">Dunne's Institute</h3>
                 <p className="text-xs text-primary-foreground/70">Since 1949</p>

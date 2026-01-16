@@ -4,6 +4,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "@/hooks/useAuth";
+import { ParentChatbot } from "@/components/ParentChatbot";
 import Index from "./pages/Index";
 import About from "./pages/About";
 import Activities from "./pages/Activities";
@@ -34,6 +35,7 @@ const App = () => (
             <Route path="/admin/dashboard" element={<AdminDashboard />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
+          <ParentChatbot />
         </AuthProvider>
       </BrowserRouter>
     </TooltipProvider>

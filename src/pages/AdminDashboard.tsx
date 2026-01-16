@@ -8,7 +8,8 @@ import { Badge } from "@/components/ui/badge";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { LogOut, Mail, Phone, Calendar, MessageSquare, RefreshCw, Eye } from "lucide-react";
+import { Textarea } from "@/components/ui/textarea";
+import { LogOut, Mail, Phone, MessageSquare, RefreshCw, Eye, Send, Reply } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { format } from "date-fns";
 
@@ -29,6 +30,9 @@ export default function AdminDashboard() {
   const [loading, setLoading] = useState(true);
   const [selectedMessage, setSelectedMessage] = useState<HelpMessage | null>(null);
   const [isRefreshing, setIsRefreshing] = useState(false);
+  const [showReplyForm, setShowReplyForm] = useState(false);
+  const [replyText, setReplyText] = useState("");
+  const [isSendingReply, setIsSendingReply] = useState(false);
   const { user, isAdmin, loading: authLoading, signOut } = useAuth();
   const navigate = useNavigate();
   const { toast } = useToast();
@@ -119,6 +123,45 @@ export default function AdminDashboard() {
     }
   };
 
+  const handleSendReply = async () => {
+    if (!selectedMessage || !replyText.trim()) return;
+
+    setIsSendingReply(true);
+    try {
+      const { data, error } = await supabase.functions.invoke("send-reply-email", {
+        body: {
+          to_email: selectedMessage.email,
+          to_name: selectedMessage.name,
+          subject: selectedMessage.subject,
+          original_message: selectedMessage.message,
+          reply_message: replyText,
+        },
+      });
+
+      if (error) throw error;
+
+      toast({
+        title: "Reply Sent",
+        description: `Reply sent to ${selectedMessage.email}`,
+      });
+
+      // Update status to in_progress or resolved
+      await updateStatus(selectedMessage.id, "in_progress");
+      
+      setReplyText("");
+      setShowReplyForm(false);
+    } catch (error) {
+      console.error("Error sending reply:", error);
+      toast({
+        title: "Error",
+        description: "Failed to send reply. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsSendingReply(false);
+    }
+  };
+
   const handleLogout = async () => {
     await signOut();
     navigate("/admin");
@@ -137,6 +180,12 @@ export default function AdminDashboard() {
       default:
         return "bg-gray-100 text-gray-800 border-gray-200";
     }
+  };
+
+  const handleCloseDialog = () => {
+    setSelectedMessage(null);
+    setShowReplyForm(false);
+    setReplyText("");
   };
 
   if (authLoading || loading) {
@@ -276,8 +325,8 @@ export default function AdminDashboard() {
       </main>
 
       {/* Message Detail Dialog */}
-      <Dialog open={!!selectedMessage} onOpenChange={() => setSelectedMessage(null)}>
-        <DialogContent className="max-w-2xl">
+      <Dialog open={!!selectedMessage} onOpenChange={handleCloseDialog}>
+        <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
           <DialogHeader>
             <DialogTitle className="font-heading">{selectedMessage?.subject}</DialogTitle>
             <DialogDescription>
@@ -314,6 +363,55 @@ export default function AdminDashboard() {
                   {selectedMessage.message}
                 </div>
               </div>
+
+              {/* Reply Section */}
+              {!showReplyForm ? (
+                <Button 
+                  onClick={() => setShowReplyForm(true)}
+                  className="w-full"
+                  variant="outline"
+                >
+                  <Reply className="h-4 w-4 mr-2" />
+                  Reply to Enquiry
+                </Button>
+              ) : (
+                <div className="space-y-3 pt-4 border-t">
+                  <h4 className="font-medium">Send Reply</h4>
+                  <Textarea
+                    placeholder="Type your reply here..."
+                    value={replyText}
+                    onChange={(e) => setReplyText(e.target.value)}
+                    rows={5}
+                    className="resize-none"
+                  />
+                  <div className="flex gap-2">
+                    <Button
+                      onClick={handleSendReply}
+                      disabled={!replyText.trim() || isSendingReply}
+                      className="flex-1"
+                    >
+                      {isSendingReply ? (
+                        "Sending..."
+                      ) : (
+                        <>
+                          <Send className="h-4 w-4 mr-2" />
+                          Send Reply
+                        </>
+                      )}
+                    </Button>
+                    <Button
+                      variant="outline"
+                      onClick={() => {
+                        setShowReplyForm(false);
+                        setReplyText("");
+                      }}
+                      disabled={isSendingReply}
+                    >
+                      Cancel
+                    </Button>
+                  </div>
+                </div>
+              )}
 
               <div className="flex items-center gap-4 pt-4 border-t">
                 <span className="text-sm font-medium">Update Status:</span>

@@ -1,0 +1,99 @@
+import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
+
+const corsHeaders = {
+  "Access-Control-Allow-Origin": "*",
+  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
+};
+
+const SCHOOL_CONTEXT = `You are a helpful assistant for Dunne's Institute, a prestigious school in Colaba, Mumbai established in 1949. 
+
+School Information:
+- Name: Dunne's Institute (ISO 9001:2000 Certified)
+- Motto: "Opus Vincet Omnia" (Work Conquers All)
+- Principal: Mrs. Kiran Singh (Noted Educationist)
+- Phone: 8527665593
+- Email: dunnesschool@gmail.com
+
+Campuses:
+1. Pre-Primary Section: K. R. Cama Oriental Institute Building, Opp. Lion Gate, Near Kala Ghoda, Mumbai - 400023
+2. Primary & Secondary Section: Admiralty House, Wodehouse Road, Colaba, Mumbai - 400005
+
+School Timings: Monday to Saturday, 8:00 AM - 3:00 PM
+
+Mission: To redefine education where learning is a pleasure and every child is encouraged to celebrate it.
+
+Values: Discipline, academic excellence, holistic development, and character building.
+
+Activities offered: Art & Craft, Music & Dance, Sports, Science Club, Literary activities, Computer Education, Environmental awareness programs.
+
+Admissions: 
+- Open for Pre-Primary to Secondary sections
+- Parents should contact the school office for admission forms
+- Documents required: Birth certificate, previous school records, passport photos
+- Admission process includes interaction with parents and students
+
+Answer questions about the school helpfully and professionally. If you don't know specific details, suggest parents contact the school directly. Keep responses concise and friendly.`;
+
+serve(async (req) => {
+  if (req.method === "OPTIONS") {
+    return new Response(null, { headers: corsHeaders });
+  }
+
+  try {
+    const { messages } = await req.json();
+    const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
+    
+    if (!LOVABLE_API_KEY) {
+      throw new Error("LOVABLE_API_KEY is not configured");
+    }
+
+    console.log("Received chat request with", messages.length, "messages");
+
+    const response = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${LOVABLE_API_KEY}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        model: "google/gemini-3-flash-preview",
+        messages: [
+          { role: "system", content: SCHOOL_CONTEXT },
+          ...messages,
+        ],
+        stream: true,
+      }),
+    });
+
+    if (!response.ok) {
+      if (response.status === 429) {
+        return new Response(JSON.stringify({ error: "Too many requests. Please try again later." }), {
+          status: 429,
+          headers: { ...corsHeaders, "Content-Type": "application/json" },
+        });
+      }
+      if (response.status === 402) {
+        return new Response(JSON.stringify({ error: "Service temporarily unavailable." }), {
+          status: 402,
+          headers: { ...corsHeaders, "Content-Type": "application/json" },
+        });
+      }
+      const errorText = await response.text();
+      console.error("AI gateway error:", response.status, errorText);
+      return new Response(JSON.stringify({ error: "AI service error" }), {
+        status: 500,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
+
+    return new Response(response.body, {
+      headers: { ...corsHeaders, "Content-Type": "text/event-stream" },
+    });
+  } catch (error) {
+    console.error("Chat error:", error);
+    return new Response(
+      JSON.stringify({ error: error instanceof Error ? error.message : "Unknown error" }),
+      { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+    );
+  }
+});

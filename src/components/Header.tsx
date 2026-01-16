@@ -3,7 +3,7 @@ import { Link, useLocation } from "react-router-dom";
 import { Menu, X, Phone, Mail, MapPin } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-
+import schoolLogo from "@/assets/school-logo.jpeg";
 const navigation = [
   { name: "Home", href: "/" },
   { 
@@ -56,12 +56,11 @@ export function Header() {
             {/* Logo */}
             <Link to="/" className="flex items-center gap-3 group">
               <div className="relative">
-                <div className="w-14 h-14 rounded-full bg-primary flex items-center justify-center shadow-lg group-hover:shadow-xl transition-shadow">
-                  <span className="text-primary-foreground font-heading text-xl font-bold">DI</span>
-                </div>
-                <div className="absolute -bottom-1 -right-1 w-5 h-5 bg-secondary rounded-full flex items-center justify-center">
-                  <span className="text-secondary-foreground text-[8px] font-bold">EST</span>
-                </div>
+                <img 
+                  src={schoolLogo} 
+                  alt="Dunne's Institute Logo" 
+                  className="w-14 h-14 object-contain rounded shadow-lg group-hover:shadow-xl transition-shadow"
+                />
               </div>
               <div className="hidden sm:block">
                 <h1 className="font-heading text-xl md:text-2xl font-bold text-primary leading-tight">
