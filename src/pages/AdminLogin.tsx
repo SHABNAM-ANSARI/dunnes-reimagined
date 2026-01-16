@@ -1,17 +1,19 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
+import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Lock, Mail, AlertCircle } from "lucide-react";
+import { Lock, Mail, AlertCircle, UserPlus } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
 export default function AdminLogin() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSignUp, setIsSignUp] = useState(false);
   const [error, setError] = useState("");
   const { signIn, user, isAdmin, loading } = useAuth();
   const navigate = useNavigate();
@@ -30,6 +32,37 @@ export default function AdminLogin() {
 
     if (!email || !password) {
       setError("Please enter both email and password");
+      setIsSubmitting(false);
+      return;
+    }
+
+    if (password.length < 6) {
+      setError("Password must be at least 6 characters");
+      setIsSubmitting(false);
+      return;
+    }
+
+    if (isSignUp) {
+      const redirectUrl = `${window.location.origin}/admin`;
+      const { error: signUpError } = await supabase.auth.signUp({
+        email,
+        password,
+        options: {
+          emailRedirectTo: redirectUrl,
+        },
+      });
+
+      if (signUpError) {
+        setError(signUpError.message || "Failed to create account");
+        setIsSubmitting(false);
+        return;
+      }
+
+      toast({
+        title: "Account Created",
+        description: "Your account has been created. Contact the school administrator to get admin access.",
+      });
+      setIsSignUp(false);
       setIsSubmitting(false);
       return;
     }
@@ -61,11 +94,19 @@ export default function AdminLogin() {
       <Card className="w-full max-w-md shadow-elegant">
         <CardHeader className="text-center space-y-2">
           <div className="mx-auto w-16 h-16 rounded-full bg-primary flex items-center justify-center mb-4">
-            <Lock className="h-8 w-8 text-primary-foreground" />
+            {isSignUp ? (
+              <UserPlus className="h-8 w-8 text-primary-foreground" />
+            ) : (
+              <Lock className="h-8 w-8 text-primary-foreground" />
+            )}
           </div>
-          <CardTitle className="font-heading text-2xl text-primary">Admin Login</CardTitle>
+          <CardTitle className="font-heading text-2xl text-primary">
+            {isSignUp ? "Create Admin Account" : "Admin Login"}
+          </CardTitle>
           <CardDescription>
-            Sign in to access the Dunne's Institute admin dashboard
+            {isSignUp 
+              ? "Create an account to request admin access" 
+              : "Sign in to access the Dunne's Institute admin dashboard"}
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -114,9 +155,26 @@ export default function AdminLogin() {
               className="w-full bg-primary hover:bg-primary/90"
               disabled={isSubmitting}
             >
-              {isSubmitting ? "Signing in..." : "Sign In"}
+              {isSubmitting 
+                ? (isSignUp ? "Creating account..." : "Signing in...") 
+                : (isSignUp ? "Create Account" : "Sign In")}
             </Button>
           </form>
+
+          <div className="mt-4 text-center">
+            <button
+              type="button"
+              onClick={() => {
+                setIsSignUp(!isSignUp);
+                setError("");
+              }}
+              className="text-sm text-primary hover:underline"
+            >
+              {isSignUp 
+                ? "Already have an account? Sign in" 
+                : "Need an account? Create one"}
+            </button>
+          </div>
         </CardContent>
       </Card>
     </div>

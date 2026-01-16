@@ -1,1 +1,10 @@
 project_id = "gsplofovjddmnxvoqonn"
+
+[functions.send-enquiry-email]
+verify_jwt = false
+
+[functions.parent-chat]
+verify_jwt = false
+
+[functions.send-reply-email]
+verify_jwt = false
