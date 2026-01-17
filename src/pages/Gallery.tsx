@@ -1,22 +1,35 @@
 import { useState, useEffect } from "react";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
-import { Camera, X } from "lucide-react";
+import { Camera } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 interface GalleryPhoto {
   id: string;
   title: string | null;
   description: string | null;
   url: string;
+  category: string;
   created_at: string;
 }
+
+const categories = [
+  { value: "all", label: "All Photos" },
+  { value: "events", label: "Events" },
+  { value: "sports", label: "Sports" },
+  { value: "cultural", label: "Cultural" },
+  { value: "academics", label: "Academics" },
+  { value: "celebrations", label: "Celebrations" },
+  { value: "campus", label: "Campus Life" },
+];
 
 const Gallery = () => {
   const [photos, setPhotos] = useState<GalleryPhoto[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedPhoto, setSelectedPhoto] = useState<GalleryPhoto | null>(null);
+  const [activeCategory, setActiveCategory] = useState("all");
 
   useEffect(() => {
     fetchPhotos();
@@ -36,6 +49,15 @@ const Gallery = () => {
     } finally {
       setLoading(false);
     }
+  };
+
+  const filteredPhotos = activeCategory === "all" 
+    ? photos 
+    : photos.filter(photo => photo.category === activeCategory);
+
+  const getCategoryCount = (category: string) => {
+    if (category === "all") return photos.length;
+    return photos.filter(p => p.category === category).length;
   };
 
   return (
@@ -76,38 +98,75 @@ const Gallery = () => {
                 <p className="text-muted-foreground">Photos coming soon. Stay tuned!</p>
               </div>
             ) : (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {photos.map((photo) => (
-                  <div
-                    key={photo.id}
-                    className="group relative aspect-[4/3] bg-muted rounded-xl overflow-hidden cursor-pointer"
-                    onClick={() => setSelectedPhoto(photo)}
-                  >
-                    <img
-                      src={photo.url}
-                      alt={photo.title || "Gallery photo"}
-                      className="absolute inset-0 w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
-                    />
-                    
-                    {/* Overlay */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-primary/90 via-primary/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
-                    
-                    {/* Content */}
-                    {photo.title && (
-                      <div className="absolute bottom-0 left-0 right-0 p-6 text-primary-foreground opacity-0 group-hover:opacity-100 transition-opacity">
-                        <h3 className="font-heading text-xl font-bold mb-1">
-                          {photo.title}
-                        </h3>
-                        {photo.description && (
-                          <p className="text-sm text-primary-foreground/80">
-                            {photo.description}
-                          </p>
+              <>
+                {/* Category Tabs */}
+                <Tabs value={activeCategory} onValueChange={setActiveCategory} className="mb-8">
+                  <TabsList className="flex flex-wrap justify-center gap-2 h-auto bg-transparent">
+                    {categories.map((cat) => {
+                      const count = getCategoryCount(cat.value);
+                      return (
+                        <TabsTrigger
+                          key={cat.value}
+                          value={cat.value}
+                          className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground px-4 py-2 rounded-full border border-border"
+                          disabled={count === 0 && cat.value !== "all"}
+                        >
+                          {cat.label}
+                          <span className="ml-2 text-xs opacity-70">({count})</span>
+                        </TabsTrigger>
+                      );
+                    })}
+                  </TabsList>
+                </Tabs>
+
+                {/* Photos Grid */}
+                {filteredPhotos.length === 0 ? (
+                  <div className="text-center py-12">
+                    <Camera className="h-12 w-12 mx-auto text-muted-foreground/30 mb-4" />
+                    <p className="text-muted-foreground">No photos in this category yet.</p>
+                  </div>
+                ) : (
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {filteredPhotos.map((photo) => (
+                      <div
+                        key={photo.id}
+                        className="group relative aspect-[4/3] bg-muted rounded-xl overflow-hidden cursor-pointer"
+                        onClick={() => setSelectedPhoto(photo)}
+                      >
+                        <img
+                          src={photo.url}
+                          alt={photo.title || "Gallery photo"}
+                          className="absolute inset-0 w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                        />
+                        
+                        {/* Overlay */}
+                        <div className="absolute inset-0 bg-gradient-to-t from-primary/90 via-primary/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+                        
+                        {/* Category Badge */}
+                        <div className="absolute top-3 left-3">
+                          <span className="px-3 py-1 bg-secondary text-secondary-foreground text-xs font-medium rounded-full capitalize">
+                            {photo.category}
+                          </span>
+                        </div>
+                        
+                        {/* Content */}
+                        {photo.title && (
+                          <div className="absolute bottom-0 left-0 right-0 p-6 text-primary-foreground opacity-0 group-hover:opacity-100 transition-opacity">
+                            <h3 className="font-heading text-xl font-bold mb-1">
+                              {photo.title}
+                            </h3>
+                            {photo.description && (
+                              <p className="text-sm text-primary-foreground/80">
+                                {photo.description}
+                              </p>
+                            )}
+                          </div>
                         )}
                       </div>
-                    )}
+                    ))}
                   </div>
-                ))}
-              </div>
+                )}
+              </>
             )}
           </div>
         </section>
@@ -140,6 +199,11 @@ const Gallery = () => {
                 alt={selectedPhoto.title || "Gallery photo"}
                 className="w-full h-auto max-h-[80vh] object-contain rounded-lg"
               />
+              <div className="absolute top-3 left-3">
+                <span className="px-3 py-1 bg-secondary text-secondary-foreground text-xs font-medium rounded-full capitalize">
+                  {selectedPhoto.category}
+                </span>
+              </div>
               {selectedPhoto.title && (
                 <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/80 to-transparent rounded-b-lg">
                   <h3 className="text-white font-heading text-xl font-bold">

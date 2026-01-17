@@ -16,6 +16,7 @@ export type Database = {
     Tables: {
       gallery_photos: {
         Row: {
+          category: Database["public"]["Enums"]["gallery_category"]
           created_at: string
           description: string | null
           file_path: string
@@ -25,6 +26,7 @@ export type Database = {
           url: string
         }
         Insert: {
+          category?: Database["public"]["Enums"]["gallery_category"]
           created_at?: string
           description?: string | null
           file_path: string
@@ -34,6 +36,7 @@ export type Database = {
           url: string
         }
         Update: {
+          category?: Database["public"]["Enums"]["gallery_category"]
           created_at?: string
           description?: string | null
           file_path?: string
@@ -116,6 +119,13 @@ export type Database = {
     }
     Enums: {
       app_role: "admin" | "moderator" | "user"
+      gallery_category:
+        | "events"
+        | "sports"
+        | "cultural"
+        | "academics"
+        | "celebrations"
+        | "campus"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -244,6 +254,14 @@ export const Constants = {
   public: {
     Enums: {
       app_role: ["admin", "moderator", "user"],
+      gallery_category: [
+        "events",
+        "sports",
+        "cultural",
+        "academics",
+        "celebrations",
+        "campus",
+      ],
     },
   },
 } as const
