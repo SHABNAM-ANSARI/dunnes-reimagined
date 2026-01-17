@@ -14,6 +14,36 @@ export type Database = {
   }
   public: {
     Tables: {
+      gallery_photos: {
+        Row: {
+          created_at: string
+          description: string | null
+          file_path: string
+          id: string
+          title: string | null
+          uploaded_by: string | null
+          url: string
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          file_path: string
+          id?: string
+          title?: string | null
+          uploaded_by?: string | null
+          url: string
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          file_path?: string
+          id?: string
+          title?: string | null
+          uploaded_by?: string | null
+          url?: string
+        }
+        Relationships: []
+      }
       help_messages: {
         Row: {
           created_at: string
