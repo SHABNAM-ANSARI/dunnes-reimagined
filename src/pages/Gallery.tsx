@@ -1,35 +1,42 @@
+import { useState, useEffect } from "react";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
-import { Camera } from "lucide-react";
+import { Camera, X } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
+import { Dialog, DialogContent } from "@/components/ui/dialog";
+
+interface GalleryPhoto {
+  id: string;
+  title: string | null;
+  description: string | null;
+  url: string;
+  created_at: string;
+}
 
 const Gallery = () => {
-  // Placeholder gallery items - can be expanded with actual school images
-  const galleryCategories = [
-    {
-      title: "Campus Life",
-      description: "Experience our vibrant school environment"
-    },
-    {
-      title: "Sports Day",
-      description: "Annual athletic events and celebrations"
-    },
-    {
-      title: "Cultural Programs",
-      description: "Drama, dance, and music performances"
-    },
-    {
-      title: "Academic Events",
-      description: "Science exhibitions and academic achievements"
-    },
-    {
-      title: "Celebrations",
-      description: "Festivals and special occasions"
-    },
-    {
-      title: "Community Service",
-      description: "Our students giving back to society"
+  const [photos, setPhotos] = useState<GalleryPhoto[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [selectedPhoto, setSelectedPhoto] = useState<GalleryPhoto | null>(null);
+
+  useEffect(() => {
+    fetchPhotos();
+  }, []);
+
+  const fetchPhotos = async () => {
+    try {
+      const { data, error } = await supabase
+        .from("gallery_photos")
+        .select("*")
+        .order("created_at", { ascending: false });
+
+      if (error) throw error;
+      setPhotos(data || []);
+    } catch (error) {
+      console.error("Error fetching photos:", error);
+    } finally {
+      setLoading(false);
     }
-  ];
+  };
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -59,42 +66,49 @@ const Gallery = () => {
               </h2>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {galleryCategories.map((category, index) => (
-                <div 
-                  key={category.title}
-                  className="group relative aspect-[4/3] bg-muted rounded-xl overflow-hidden cursor-pointer"
-                >
-                  {/* Placeholder background */}
-                  <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-secondary/20" />
-                  
-                  {/* Icon */}
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <Camera className="h-16 w-16 text-primary/30" />
+            {loading ? (
+              <div className="text-center py-12">
+                <div className="animate-pulse text-muted-foreground">Loading photos...</div>
+              </div>
+            ) : photos.length === 0 ? (
+              <div className="text-center py-12">
+                <Camera className="h-16 w-16 mx-auto text-muted-foreground/30 mb-4" />
+                <p className="text-muted-foreground">Photos coming soon. Stay tuned!</p>
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {photos.map((photo) => (
+                  <div
+                    key={photo.id}
+                    className="group relative aspect-[4/3] bg-muted rounded-xl overflow-hidden cursor-pointer"
+                    onClick={() => setSelectedPhoto(photo)}
+                  >
+                    <img
+                      src={photo.url}
+                      alt={photo.title || "Gallery photo"}
+                      className="absolute inset-0 w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                    />
+                    
+                    {/* Overlay */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-primary/90 via-primary/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+                    
+                    {/* Content */}
+                    {photo.title && (
+                      <div className="absolute bottom-0 left-0 right-0 p-6 text-primary-foreground opacity-0 group-hover:opacity-100 transition-opacity">
+                        <h3 className="font-heading text-xl font-bold mb-1">
+                          {photo.title}
+                        </h3>
+                        {photo.description && (
+                          <p className="text-sm text-primary-foreground/80">
+                            {photo.description}
+                          </p>
+                        )}
+                      </div>
+                    )}
                   </div>
-                  
-                  {/* Overlay */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-primary/90 via-primary/40 to-transparent opacity-80 group-hover:opacity-90 transition-opacity" />
-                  
-                  {/* Content */}
-                  <div className="absolute bottom-0 left-0 right-0 p-6 text-primary-foreground">
-                    <h3 className="font-heading text-xl font-bold mb-1">
-                      {category.title}
-                    </h3>
-                    <p className="text-sm text-primary-foreground/80">
-                      {category.description}
-                    </p>
-                  </div>
-                </div>
-              ))}
-            </div>
-
-            {/* Note */}
-            <div className="mt-12 text-center">
-              <p className="text-muted-foreground text-sm">
-                More photos coming soon. Stay tuned for updates!
-              </p>
-            </div>
+                ))}
+              </div>
+            )}
           </div>
         </section>
 
@@ -115,6 +129,33 @@ const Gallery = () => {
         </section>
       </main>
       <Footer />
+
+      {/* Photo Lightbox */}
+      <Dialog open={!!selectedPhoto} onOpenChange={() => setSelectedPhoto(null)}>
+        <DialogContent className="max-w-4xl p-0 bg-transparent border-none">
+          {selectedPhoto && (
+            <div className="relative">
+              <img
+                src={selectedPhoto.url}
+                alt={selectedPhoto.title || "Gallery photo"}
+                className="w-full h-auto max-h-[80vh] object-contain rounded-lg"
+              />
+              {selectedPhoto.title && (
+                <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/80 to-transparent rounded-b-lg">
+                  <h3 className="text-white font-heading text-xl font-bold">
+                    {selectedPhoto.title}
+                  </h3>
+                  {selectedPhoto.description && (
+                    <p className="text-white/80 text-sm mt-1">
+                      {selectedPhoto.description}
+                    </p>
+                  )}
+                </div>
+              )}
+            </div>
+          )}
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };

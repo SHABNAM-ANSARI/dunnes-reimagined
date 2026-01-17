@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Menu, X, Phone, Mail, MapPin } from "lucide-react";
+import { Menu, X, Phone, Mail, MapPin, Instagram } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import schoolLogo from "@/assets/school-logo.jpeg";
@@ -51,9 +51,20 @@ export function Header() {
                 <span className="hidden sm:inline">dunnesschool@gmail.com</span>
               </a>
             </div>
-            <div className="flex items-center gap-1.5 text-xs md:text-sm">
-              <MapPin className="h-3.5 w-3.5 flex-shrink-0" />
-              <span className="hidden md:inline">Colaba, Mumbai</span>
+            <div className="flex items-center gap-4">
+              <div className="flex items-center gap-1.5 text-xs md:text-sm">
+                <MapPin className="h-3.5 w-3.5 flex-shrink-0" />
+                <span className="hidden md:inline">Colaba, Mumbai</span>
+              </div>
+              <a 
+                href="https://www.instagram.com/dunnesinstitute/" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="hover:text-secondary transition-colors"
+                aria-label="Follow us on Instagram"
+              >
+                <Instagram className="h-4 w-4" />
+              </a>
             </div>
           </div>
         </div>

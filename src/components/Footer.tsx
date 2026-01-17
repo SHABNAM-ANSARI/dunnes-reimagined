@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { Phone, Mail, MapPin, Clock, Award } from "lucide-react";
+import { Phone, Mail, MapPin, Clock, Award, Instagram } from "lucide-react";
 import schoolLogo from "@/assets/school-logo.jpeg";
 export function Footer() {
   return <footer className="bg-primary text-primary-foreground">
@@ -21,6 +21,17 @@ export function Footer() {
             <div className="flex items-center gap-2 mt-4">
               <Award className="h-5 w-5 text-secondary" />
               <span className="text-sm">ISO 9001:2000 Certified</span>
+            </div>
+            <div className="mt-4">
+              <a 
+                href="https://www.instagram.com/dunnesinstitute/" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 text-primary-foreground/80 hover:text-secondary transition-colors"
+              >
+                <Instagram className="h-5 w-5" />
+                <span className="text-sm">Follow us on Instagram</span>
+              </a>
             </div>
           </div>
 
