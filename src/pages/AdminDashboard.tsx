@@ -34,8 +34,18 @@ interface GalleryPhoto {
   description: string | null;
   url: string;
   file_path: string;
+  category: string;
   created_at: string;
 }
+
+const categoryOptions = [
+  { value: "events", label: "Events" },
+  { value: "sports", label: "Sports" },
+  { value: "cultural", label: "Cultural" },
+  { value: "academics", label: "Academics" },
+  { value: "celebrations", label: "Celebrations" },
+  { value: "campus", label: "Campus Life" },
+];
 
 export default function AdminDashboard() {
   const [messages, setMessages] = useState<HelpMessage[]>([]);
@@ -49,6 +59,7 @@ export default function AdminDashboard() {
   const [isUploading, setIsUploading] = useState(false);
   const [photoTitle, setPhotoTitle] = useState("");
   const [photoDescription, setPhotoDescription] = useState("");
+  const [photoCategory, setPhotoCategory] = useState("events");
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const { user, isAdmin, loading: authLoading, signOut } = useAuth();
@@ -242,6 +253,7 @@ export default function AdminDashboard() {
             description: photoDescription || null,
             url: publicUrl,
             file_path: filePath,
+            category: photoCategory as "events" | "sports" | "cultural" | "academics" | "celebrations" | "campus",
             uploaded_by: user?.id,
           });
 
@@ -263,6 +275,7 @@ export default function AdminDashboard() {
         setSelectedFiles([]);
         setPhotoTitle("");
         setPhotoDescription("");
+        setPhotoCategory("events");
         if (fileInputRef.current) {
           fileInputRef.current.value = "";
         }
@@ -508,7 +521,7 @@ export default function AdminDashboard() {
                 <CardDescription>Add new photos to the gallery</CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                   <div className="space-y-2">
                     <Label htmlFor="photo-title">Title (optional)</Label>
                     <Input
@@ -526,6 +539,21 @@ export default function AdminDashboard() {
                       value={photoDescription}
                       onChange={(e) => setPhotoDescription(e.target.value)}
                     />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="photo-category">Category</Label>
+                    <Select value={photoCategory} onValueChange={setPhotoCategory}>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select category" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {categoryOptions.map((cat) => (
+                          <SelectItem key={cat.value} value={cat.value}>
+                            {cat.label}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
                   </div>
                 </div>
                 <div className="space-y-2">
