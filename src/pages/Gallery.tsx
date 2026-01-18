@@ -139,8 +139,8 @@ const Gallery = () => {
                           className="absolute inset-0 w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
                         />
                         
-                        {/* Overlay */}
-                        <div className="absolute inset-0 bg-gradient-to-t from-primary/90 via-primary/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+                        {/* Always visible overlay for text readability */}
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
                         
                         {/* Category Badge */}
                         <div className="absolute top-3 left-3">
@@ -149,14 +149,14 @@ const Gallery = () => {
                           </span>
                         </div>
                         
-                        {/* Content */}
+                        {/* Content - Always visible */}
                         {photo.title && (
-                          <div className="absolute bottom-0 left-0 right-0 p-6 text-primary-foreground opacity-0 group-hover:opacity-100 transition-opacity">
-                            <h3 className="font-heading text-xl font-bold mb-1">
+                          <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
+                            <h3 className="font-heading text-xl font-bold mb-1 drop-shadow-lg">
                               {photo.title}
                             </h3>
                             {photo.description && (
-                              <p className="text-sm text-primary-foreground/80">
+                              <p className="text-sm text-white/90 drop-shadow-md">
                                 {photo.description}
                               </p>
                             )}

@@ -75,10 +75,12 @@ export default function AdminLogin() {
       return;
     }
 
-    // Wait a moment for the auth state to update and check admin role
-    setTimeout(() => {
-      setIsSubmitting(false);
-    }, 1500);
+    // The useEffect will handle redirect once isAdmin is true
+    // Keep submitting state until redirect happens
+    toast({
+      title: "Signed In",
+      description: "Checking admin privileges...",
+    });
   };
 
   if (loading) {
