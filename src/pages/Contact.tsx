@@ -2,10 +2,8 @@ import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { EnquiryForm } from "@/components/EnquiryForm";
 import { MapPin, Phone, Mail, Clock } from "lucide-react";
-
 const Contact = () => {
-  return (
-    <div className="min-h-screen flex flex-col">
+  return <div className="min-h-screen flex flex-col">
       <Header />
       <main className="flex-1">
         {/* Page Header */}
@@ -43,9 +41,8 @@ const Contact = () => {
                     </div>
                     <div>
                       <h4 className="font-semibold text-foreground mb-1">Phone</h4>
-                      <a href="tel:8527665593" className="text-muted-foreground hover:text-secondary transition-colors">
-                        8527665593
-                      </a>
+                      <a href="tel:8527665593" className="text-muted-foreground hover:text-secondary transition-colors">+91 7020981168
+                    </a>
                     </div>
                   </div>
 
@@ -126,23 +123,14 @@ const Contact = () => {
               </h2>
             </div>
             <div className="rounded-xl overflow-hidden shadow-lg border h-[400px]">
-              <iframe
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3774.1234567890123!2d72.8308!3d18.9167!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be7d1c73a0d5555%3A0x1234567890abcdef!2sColaba%2C%20Mumbai%2C%20Maharashtra%20400005!5e0!3m2!1sen!2sin!4v1234567890123"
-                width="100%"
-                height="100%"
-                style={{ border: 0 }}
-                allowFullScreen
-                loading="lazy"
-                referrerPolicy="no-referrer-when-downgrade"
-                title="Dunne's Institute Location"
-              />
+              <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3774.1234567890123!2d72.8308!3d18.9167!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be7d1c73a0d5555%3A0x1234567890abcdef!2sColaba%2C%20Mumbai%2C%20Maharashtra%20400005!5e0!3m2!1sen!2sin!4v1234567890123" width="100%" height="100%" style={{
+              border: 0
+            }} allowFullScreen loading="lazy" referrerPolicy="no-referrer-when-downgrade" title="Dunne's Institute Location" />
             </div>
           </div>
         </section>
       </main>
       <Footer />
-    </div>
-  );
+    </div>;
 };
-
 export default Contact;
