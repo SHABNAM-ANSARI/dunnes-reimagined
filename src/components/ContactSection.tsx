@@ -1,10 +1,8 @@
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { MapPin, Phone, Mail, Clock, ArrowRight } from "lucide-react";
-
 export function ContactSection() {
-  return (
-    <section className="py-16 md:py-24 bg-gradient-section">
+  return <section className="py-16 md:py-24 bg-gradient-section">
       <div className="container mx-auto px-4">
         <div className="text-center mb-12">
           <span className="inline-block text-secondary font-semibold text-sm uppercase tracking-wider mb-4">
@@ -60,7 +58,7 @@ export function ContactSection() {
             <div className="space-y-4">
               <a href="tel:8527665593" className="flex items-center gap-3 hover:text-secondary transition-colors">
                 <Phone className="h-5 w-5" />
-                <span>8527665593</span>
+                <span>+91 7020981168</span>
               </a>
               <a href="mailto:dunnesschool@gmail.com" className="flex items-center gap-3 hover:text-secondary transition-colors">
                 <Mail className="h-5 w-5" />
@@ -80,6 +78,5 @@ export function ContactSection() {
           </div>
         </div>
       </div>
-    </section>
-  );
+    </section>;
 }
