@@ -1,10 +1,8 @@
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { BookOpen, Users, Star, ArrowRight } from "lucide-react";
-
 export function AboutSection() {
-  return (
-    <section className="py-16 md:py-24 bg-gradient-section">
+  return <section className="py-16 md:py-24 bg-gradient-section">
       <div className="container mx-auto px-4">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           {/* Content */}
@@ -28,12 +26,19 @@ export function AboutSection() {
             </p>
             
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
-              {[
-                { icon: BookOpen, title: "ICSE Board", desc: "Affiliated curriculum" },
-                { icon: Users, title: "Co-Educational", desc: "Inclusive learning" },
-                { icon: Star, title: "60+ Years", desc: "Of excellence" },
-              ].map((item) => (
-                <div key={item.title} className="flex items-start gap-3 p-4 rounded-lg bg-card shadow-sm">
+              {[{
+              icon: BookOpen,
+              title: "ICSE Board",
+              desc: "Affiliated curriculum"
+            }, {
+              icon: Users,
+              title: "Co-Educational",
+              desc: "Inclusive learning"
+            }, {
+              icon: Star,
+              title: "60+ Years",
+              desc: "Of excellence"
+            }].map(item => <div key={item.title} className="flex items-start gap-3 p-4 rounded-lg bg-card shadow-sm">
                   <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0">
                     <item.icon className="h-5 w-5 text-primary" />
                   </div>
@@ -41,8 +46,7 @@ export function AboutSection() {
                     <h4 className="font-semibold text-foreground text-sm">{item.title}</h4>
                     <p className="text-xs text-muted-foreground">{item.desc}</p>
                   </div>
-                </div>
-              ))}
+                </div>)}
             </div>
 
             <Button asChild className="bg-primary hover:bg-primary/90">
@@ -78,8 +82,9 @@ export function AboutSection() {
                 <div className="bg-card rounded-xl p-6 shadow-lg border">
                   <h4 className="font-heading text-lg font-bold text-foreground mb-3">Current Leadership</h4>
                   <div className="space-y-2 text-sm">
-                    <p className="text-muted-foreground">
-                      <span className="font-semibold text-foreground">Principal:</span><br />
+                    <p className="text-muted-foreground">Principal:
+Mrs. Kiran Singh
+contact: +91 852765593<span className="font-semibold text-foreground">Principal:</span><br />
                       Mrs. Kiran Singh
                     </p>
                     <p className="text-muted-foreground">
@@ -93,6 +98,5 @@ export function AboutSection() {
           </div>
         </div>
       </div>
-    </section>
-  );
+    </section>;
 }
