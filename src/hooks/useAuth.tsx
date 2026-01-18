@@ -29,7 +29,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         // Defer admin check with setTimeout to avoid deadlock
         if (session?.user) {
           setTimeout(() => {
-            checkAdminRole(session.user.id);
+            checkAdminRole(session.user.id, session.user.email);
           }, 0);
         } else {
           setIsAdmin(false);
@@ -42,7 +42,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       setSession(session);
       setUser(session?.user ?? null);
       if (session?.user) {
-        checkAdminRole(session.user.id);
+        checkAdminRole(session.user.id, session.user.email);
       } else {
         setLoading(false);
       }
@@ -51,9 +51,22 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     return () => subscription.unsubscribe();
   }, []);
 
-  const checkAdminRole = async (userId: string) => {
+  // Hard-coded admin emails for immediate access
+  const ADMIN_EMAILS = [
+    "admin@dunnes-institute.org",
+    "dunnesschool@gmail.com"
+  ];
+
+  const checkAdminRole = async (userId: string, userEmail?: string) => {
     try {
-      // Use the security definer function to check admin role
+      // First check if user email is in hard-coded admin list
+      if (userEmail && ADMIN_EMAILS.includes(userEmail.toLowerCase())) {
+        setIsAdmin(true);
+        setLoading(false);
+        return;
+      }
+
+      // Fallback to database role check
       const { data, error } = await supabase
         .rpc("has_role", { _user_id: userId, _role: "admin" });
       
