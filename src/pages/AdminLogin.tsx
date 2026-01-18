@@ -20,10 +20,15 @@ export default function AdminLogin() {
   const { toast } = useToast();
 
   useEffect(() => {
-    if (!loading && user && isAdmin) {
-      navigate("/admin/dashboard");
+    if (!loading && user) {
+      if (isAdmin) {
+        navigate("/admin/dashboard");
+      } else if (!isSubmitting) {
+        // Only show error if user is authenticated but not admin and not currently submitting
+        setError("You do not have admin privileges. Contact the school administrator.");
+      }
     }
-  }, [user, isAdmin, loading, navigate]);
+  }, [user, isAdmin, loading, navigate, isSubmitting]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
