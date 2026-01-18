@@ -52,23 +52,23 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const checkAdminRole = async (userId: string) => {
     try {
+      // Use the security definer function to check admin role
       const { data, error } = await supabase
-        .from("user_roles")
-        .select("role")
-        .eq("user_id", userId)
-        .eq("role", "admin")
-        .maybeSingle();
+        .rpc("has_role", { _user_id: userId, _role: "admin" });
       
       if (error) {
         console.error("Error checking admin role:", error);
         setIsAdmin(false);
+        setLoading(false);
         return;
       }
       
-      setIsAdmin(!!data);
+      setIsAdmin(data === true);
+      setLoading(false);
     } catch (err) {
       console.error("Error checking admin role:", err);
       setIsAdmin(false);
+      setLoading(false);
     }
   };
 
