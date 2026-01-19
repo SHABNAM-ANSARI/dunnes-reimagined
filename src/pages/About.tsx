@@ -1,10 +1,8 @@
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { BookOpen, Users, Star, Award, Target, Lightbulb, GraduationCap } from "lucide-react";
-
 const About = () => {
-  return (
-    <div className="min-h-screen flex flex-col">
+  return <div className="min-h-screen flex flex-col">
       <Header />
       <main className="flex-1">
         {/* Page Header */}
@@ -83,7 +81,8 @@ const About = () => {
                     <div>
                       <h4 className="font-semibold text-foreground">Mrs. Kiran Singh</h4>
                       <p className="text-sm text-muted-foreground">Principal (Noted Educationist)</p>
-                      <p className="text-sm text-secondary mt-1">Contact: 8527665593</p>
+                      <p className="text-sm text-secondary mt-1">
+                    </p>
                     </div>
                   </div>
                   <div className="flex items-start gap-4">
@@ -208,8 +207,6 @@ const About = () => {
         </section>
       </main>
       <Footer />
-    </div>
-  );
+    </div>;
 };
-
 export default About;
