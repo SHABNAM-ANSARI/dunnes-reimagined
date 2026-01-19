@@ -57,7 +57,7 @@ export function Header() {
                 <span className="hidden md:inline">Colaba, Mumbai</span>
               </div>
               <a 
-                href="https://www.instagram.com/dunnesinstitute/" 
+                href="https://www.instagram.com/dunnes_institute_high_school?utm_source=qr&igsh=ZHN1dW41b3gwMDZm" 
                 target="_blank" 
                 rel="noopener noreferrer"
                 className="hover:text-secondary transition-colors"

@@ -24,7 +24,7 @@ export function Footer() {
             </div>
             <div className="mt-4">
               <a 
-                href="https://www.instagram.com/dunnesinstitute/" 
+                href="https://www.instagram.com/dunnes_institute_high_school?utm_source=qr&igsh=ZHN1dW41b3gwMDZm" 
                 target="_blank" 
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 text-primary-foreground/80 hover:text-secondary transition-colors"
