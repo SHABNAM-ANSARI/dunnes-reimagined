@@ -81,16 +81,16 @@ export function AboutSection() {
                 </div>
                 <div className="bg-card rounded-xl p-6 shadow-lg border">
                   <h4 className="font-heading text-lg font-bold text-foreground mb-3">Current Leadership</h4>
-                  <div className="space-y-2 text-sm">
-                    <p className="text-muted-foreground">Principal:
-Mrs. Kiran Singh
-contact: +91 852765593<span className="font-semibold text-foreground">Principal:</span><br />
-                      Mrs. Kiran Singh
-                    </p>
-                    <p className="text-muted-foreground">
-                      <span className="font-semibold text-foreground">Education Advisor:</span><br />
-                      Mr. Shahbehram Khushrushahi
-                    </p>
+                  <div className="space-y-3 text-sm">
+                    <div className="text-muted-foreground">
+                      <span className="font-semibold text-foreground">Principal:</span>
+                      <p className="mt-1">Mrs. Kiran Singh</p>
+                      <a href="tel:8527665593" className="text-secondary hover:underline">+91 8527665593</a>
+                    </div>
+                    <div className="text-muted-foreground">
+                      <span className="font-semibold text-foreground">Education Advisor:</span>
+                      <p className="mt-1">Mr. Shahbehram Khushrushahi</p>
+                    </div>
                   </div>
                 </div>
               </div>

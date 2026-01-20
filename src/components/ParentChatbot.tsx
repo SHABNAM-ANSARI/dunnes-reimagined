@@ -128,7 +128,7 @@ export function ParentChatbot() {
           "w-14 h-14 rounded-full shadow-lg transition-all duration-300",
           "bg-primary hover:bg-primary/90 text-primary-foreground",
           "flex items-center justify-center",
-          isOpen && "rotate-90"
+          isOpen ? "rotate-90" : "animate-chatbot-pulse"
         )}
         aria-label={isOpen ? "Close chat" : "Open chat"}
       >
