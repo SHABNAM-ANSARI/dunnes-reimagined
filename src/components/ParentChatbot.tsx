@@ -120,12 +120,12 @@ export function ParentChatbot() {
   };
 
   return (
-    <>
+    <div className="fixed bottom-6 right-6 z-[9999]">
       {/* Chat Toggle Button */}
       <button
         onClick={() => setIsOpen(!isOpen)}
         className={cn(
-          "fixed bottom-6 right-6 z-50 w-14 h-14 rounded-full shadow-lg transition-all duration-300",
+          "w-14 h-14 rounded-full shadow-lg transition-all duration-300",
           "bg-primary hover:bg-primary/90 text-primary-foreground",
           "flex items-center justify-center",
           isOpen && "rotate-90"
@@ -135,9 +135,9 @@ export function ParentChatbot() {
         {isOpen ? <X className="h-6 w-6" /> : <MessageCircle className="h-6 w-6" />}
       </button>
 
-      {/* Chat Window */}
+      {/* Chat Window - positioned above the button */}
       {isOpen && (
-        <div className="fixed bottom-24 right-6 z-50 w-[350px] md:w-[400px] h-[500px] bg-card rounded-xl shadow-xl border overflow-hidden flex flex-col animate-scale-in">
+        <div className="absolute bottom-16 right-0 w-[350px] md:w-[400px] h-[500px] bg-card rounded-xl shadow-xl border overflow-hidden flex flex-col animate-scale-in">
           {/* Header */}
           <div className="bg-primary text-primary-foreground p-4">
             <div className="flex items-center gap-3">
@@ -223,6 +223,6 @@ export function ParentChatbot() {
           </div>
         </div>
       )}
-    </>
+    </div>
   );
 }
