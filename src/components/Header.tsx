@@ -42,7 +42,7 @@ export function Header() {
         <div className="container mx-auto px-4">
           <div className="flex flex-wrap items-center justify-between py-2 text-sm">
             <div className="flex flex-wrap items-center gap-4 md:gap-6">
-              <a href="tel:8527665593" className="flex items-center gap-1.5 hover:text-secondary transition-colors">
+              <a href="tel:7020981168" className="flex items-center gap-1.5 hover:text-secondary transition-colors">
                 <Phone className="h-3.5 w-3.5" />
                 <span className="hidden sm:inline">+91 7020981168</span>
               </a>
@@ -50,6 +50,10 @@ export function Header() {
                 <Mail className="h-3.5 w-3.5" />
                 <span className="hidden sm:inline">dunnesschool@gmail.com</span>
               </a>
+              <span className="hidden lg:flex items-center gap-1.5 border-l border-primary-foreground/30 pl-4">
+                <span className="font-medium">Principal:</span> Mrs. Kiran Singh |
+                <a href="tel:8527665593" className="hover:text-secondary transition-colors">+91 8527665593</a>
+              </span>
             </div>
             <div className="flex items-center gap-4">
               <div className="flex items-center gap-1.5 text-xs md:text-sm">
