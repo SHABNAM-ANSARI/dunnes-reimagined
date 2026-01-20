@@ -101,6 +101,11 @@ export default {
           from: { opacity: "0", transform: "translateX(20px)" },
           to: { opacity: "1", transform: "translateX(0)" },
         },
+        "chatbot-pulse": {
+          "0%, 90%": { transform: "scale(1)", boxShadow: "0 0 0 0 hsl(var(--primary) / 0.4)" },
+          "95%": { transform: "scale(1.1)", boxShadow: "0 0 0 10px hsl(var(--primary) / 0)" },
+          "100%": { transform: "scale(1)", boxShadow: "0 0 0 0 hsl(var(--primary) / 0)" },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
@@ -108,6 +113,7 @@ export default {
         "fade-in": "fade-in 0.6s ease-out forwards",
         "slide-up": "slide-up 0.6s ease-out forwards",
         "slide-in-right": "slide-in-right 0.6s ease-out forwards",
+        "chatbot-pulse": "chatbot-pulse 10s ease-in-out infinite",
       },
     },
   },
