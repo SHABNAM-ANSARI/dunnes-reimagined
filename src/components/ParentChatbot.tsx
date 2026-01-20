@@ -126,7 +126,7 @@ export function ParentChatbot() {
         onClick={() => setIsOpen(!isOpen)}
         className={cn(
           "w-14 h-14 rounded-full shadow-lg transition-all duration-300",
-          "bg-primary hover:bg-primary/90 text-primary-foreground",
+          "bg-[#FFD700] hover:bg-[#E6C200] text-primary border-4 border-white",
           "flex items-center justify-center",
           isOpen ? "rotate-90" : "animate-chatbot-pulse"
         )}
