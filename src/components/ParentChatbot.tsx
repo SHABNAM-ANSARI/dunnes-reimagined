@@ -2,6 +2,7 @@ import { useState, useRef, useEffect } from "react";
 import { MessageCircle, X, Send, Bot, User } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
 
 interface Message {
@@ -120,22 +121,32 @@ export function ParentChatbot() {
   };
 
   return (
-    <div className="fixed bottom-6 right-6 z-[9999]">
-      {/* Chat Toggle Button */}
-      <button
-        onClick={() => setIsOpen(!isOpen)}
-        className={cn(
-          "w-14 h-14 rounded-full shadow-lg transition-all duration-300",
-          "bg-[#FFD700] hover:bg-[#E6C200] text-primary border-4 border-white",
-          "flex items-center justify-center",
-          isOpen ? "rotate-90" : "animate-chatbot-pulse"
-        )}
-        aria-label={isOpen ? "Close chat" : "Open chat"}
-      >
-        {isOpen ? <X className="h-6 w-6" /> : <MessageCircle className="h-6 w-6" />}
-      </button>
+    <TooltipProvider>
+      <div className="fixed bottom-6 right-6 z-[9999]">
+        {/* Chat Toggle Button */}
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <button
+              onClick={() => setIsOpen(!isOpen)}
+              className={cn(
+                "w-14 h-14 rounded-full shadow-lg transition-all duration-300",
+                "bg-[#FFD700] hover:bg-[#E6C200] text-primary border-4 border-white",
+                "flex items-center justify-center",
+                isOpen ? "rotate-90" : "animate-chatbot-pulse"
+              )}
+              aria-label={isOpen ? "Close chat" : "Open chat"}
+            >
+              {isOpen ? <X className="h-6 w-6" /> : <MessageCircle className="h-6 w-6" />}
+            </button>
+          </TooltipTrigger>
+          {!isOpen && (
+            <TooltipContent side="left" className="bg-primary text-primary-foreground">
+              <p>Chat with us!</p>
+            </TooltipContent>
+          )}
+        </Tooltip>
 
-      {/* Chat Window - positioned above the button */}
+        {/* Chat Window - positioned above the button */}
       {isOpen && (
         <div className="absolute bottom-16 right-0 w-[350px] md:w-[400px] h-[500px] bg-card rounded-xl shadow-xl border overflow-hidden flex flex-col animate-scale-in">
           {/* Header */}
@@ -223,6 +234,7 @@ export function ParentChatbot() {
           </div>
         </div>
       )}
-    </div>
+      </div>
+    </TooltipProvider>
   );
 }
