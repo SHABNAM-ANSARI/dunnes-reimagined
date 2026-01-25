@@ -23,12 +23,7 @@ export function Footer() {
               <span className="text-sm">ISO 9001:2000 Certified</span>
             </div>
             <div className="mt-4">
-              <a 
-                href="https://www.instagram.com/dunnes_institute_high_school?utm_source=qr&igsh=ZHN1dW41b3gwMDZm" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 text-primary-foreground/80 hover:text-secondary transition-colors"
-              >
+              <a href="https://www.instagram.com/dunnes_institute_high_school?utm_source=qr&igsh=ZHN1dW41b3gwMDZm" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 text-primary-foreground/80 hover:text-secondary transition-colors">
                 <Instagram className="h-5 w-5" />
                 <span className="text-sm">Follow us on Instagram</span>
               </a>
@@ -84,9 +79,7 @@ export function Footer() {
               </li>
               <li className="flex items-center gap-3">
                 <Clock className="h-5 w-5 text-secondary flex-shrink-0" />
-                <span className="text-sm text-primary-foreground/80">
-                  Mon - Sat: 8:00 AM - 3:00 PM
-                </span>
+                <span className="text-sm text-primary-foreground/80">Mon - Sat: 8:00 AM - 4:00 PM</span>
               </li>
             </ul>
           </div>
