@@ -129,7 +129,7 @@ export function ParentChatbot() {
             <button
               onClick={() => setIsOpen(!isOpen)}
               className={cn(
-                "w-14 h-14 rounded-full shadow-lg transition-all duration-300",
+                "relative w-14 h-14 rounded-full shadow-lg transition-all duration-300",
                 "bg-[#FFD700] hover:bg-[#E6C200] text-primary border-4 border-white",
                 "flex items-center justify-center",
                 isOpen ? "rotate-90" : "animate-chatbot-pulse"
@@ -137,6 +137,11 @@ export function ParentChatbot() {
               aria-label={isOpen ? "Close chat" : "Open chat"}
             >
               {isOpen ? <X className="h-6 w-6" /> : <MessageCircle className="h-6 w-6" />}
+              {!isOpen && (
+                <span className="absolute -top-1 -right-1 w-5 h-5 bg-destructive text-destructive-foreground text-xs font-bold rounded-full flex items-center justify-center animate-bounce shadow-md">
+                  1
+                </span>
+              )}
             </button>
           </TooltipTrigger>
           {!isOpen && (
