@@ -67,7 +67,7 @@ const About = () => {
                   </p>
                   <p>
                     At present, the institute is being governed by the <strong className="text-foreground">Board of Trustees</strong> - 
-                    Mrs. Armaity Khushrushahi, Mr. Viraf Chiniwala and Mrs. Shavin Chiniwala.
+                    Mrs. Armaity Khushrushahi, Mr. Viraf Chiniwala and Mrs. Shavin Chiniwala <strong className="text-foreground">Secretary </strong> - Ms. Annamma Thomas .
                   </p>
                 </div>
               </div>
