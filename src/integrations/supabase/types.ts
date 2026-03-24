@@ -83,6 +83,45 @@ export type Database = {
         }
         Relationships: []
       }
+      students: {
+        Row: {
+          active_whatsapp: string | null
+          class_name: string
+          created_at: string
+          father_name: string | null
+          id: string
+          mother_name: string | null
+          primary_mobile: string | null
+          register_number: string
+          secondary_mobile: string | null
+          student_name: string
+        }
+        Insert: {
+          active_whatsapp?: string | null
+          class_name: string
+          created_at?: string
+          father_name?: string | null
+          id?: string
+          mother_name?: string | null
+          primary_mobile?: string | null
+          register_number: string
+          secondary_mobile?: string | null
+          student_name: string
+        }
+        Update: {
+          active_whatsapp?: string | null
+          class_name?: string
+          created_at?: string
+          father_name?: string | null
+          id?: string
+          mother_name?: string | null
+          primary_mobile?: string | null
+          register_number?: string
+          secondary_mobile?: string | null
+          student_name?: string
+        }
+        Relationships: []
+      }
       user_roles: {
         Row: {
           created_at: string
@@ -117,6 +156,10 @@ export type Database = {
         Returns: boolean
       }
       is_hardcoded_admin: { Args: never; Returns: boolean }
+      set_active_whatsapp: {
+        Args: { p_active_whatsapp: string; p_register_number: string }
+        Returns: undefined
+      }
     }
     Enums: {
       app_role: "admin" | "moderator" | "user"

@@ -13,6 +13,8 @@ import Contact from "./pages/Contact";
 import Gallery from "./pages/Gallery";
 import AdminLogin from "./pages/AdminLogin";
 import AdminDashboard from "./pages/AdminDashboard";
+import ParentLogin from "./pages/ParentLogin";
+import ParentProfile from "./pages/ParentProfile";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -33,6 +35,8 @@ const App = () => (
             <Route path="/gallery" element={<Gallery />} />
             <Route path="/admin" element={<AdminLogin />} />
             <Route path="/admin/dashboard" element={<AdminDashboard />} />
+            <Route path="/parent" element={<ParentLogin />} />
+            <Route path="/parent/profile" element={<ParentProfile />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
           <ParentChatbot />
