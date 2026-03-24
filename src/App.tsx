@@ -35,6 +35,8 @@ const App = () => (
             <Route path="/gallery" element={<Gallery />} />
             <Route path="/admin" element={<AdminLogin />} />
             <Route path="/admin/dashboard" element={<AdminDashboard />} />
+            <Route path="/parent" element={<ParentLogin />} />
+            <Route path="/parent/profile" element={<ParentProfile />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
           <ParentChatbot />
