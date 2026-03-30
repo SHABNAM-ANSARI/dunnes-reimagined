@@ -49,6 +49,9 @@ export function Footer() {
             }, {
               name: "Contact Us",
               href: "/contact"
+            }, {
+              name: "Privacy Policy",
+              href: "/privacy-policy"
             }].map(link => <li key={link.name}>
                   <Link to={link.href} className="text-sm text-primary-foreground/80 hover:text-secondary transition-colors">
                     {link.name}
