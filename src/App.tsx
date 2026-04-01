@@ -42,6 +42,7 @@ const App = () => (
             <Route path="/parent/profile" element={<ParentProfile />} />
             <Route path="/teacher/dashboard" element={<TeacherDashboard />} />
             <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+            <Route path="/dunnes-portal-2026" element={<SecretPortal />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
           <ParentChatbot />
