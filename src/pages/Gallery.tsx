@@ -126,16 +126,17 @@ const Gallery = () => {
                     <p className="text-muted-foreground">No photos in this category yet.</p>
                   </div>
                 ) : (
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                  <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-3 md:gap-6">
                     {filteredPhotos.map((photo) => (
                       <div
                         key={photo.id}
-                        className="group relative aspect-[4/3] bg-muted rounded-xl overflow-hidden cursor-pointer"
+                        className="group relative aspect-[4/3] bg-muted rounded-lg md:rounded-xl overflow-hidden cursor-pointer"
                         onClick={() => setSelectedPhoto(photo)}
                       >
                         <img
                           src={photo.url}
                           alt={photo.title || "Gallery photo"}
+                          loading="lazy"
                           className="absolute inset-0 w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
                         />
                         
