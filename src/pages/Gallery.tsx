@@ -126,16 +126,17 @@ const Gallery = () => {
                     <p className="text-muted-foreground">No photos in this category yet.</p>
                   </div>
                 ) : (
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                  <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-3 md:gap-6">
                     {filteredPhotos.map((photo) => (
                       <div
                         key={photo.id}
-                        className="group relative aspect-[4/3] bg-muted rounded-xl overflow-hidden cursor-pointer"
+                        className="group relative aspect-[4/3] bg-muted rounded-lg md:rounded-xl overflow-hidden cursor-pointer"
                         onClick={() => setSelectedPhoto(photo)}
                       >
                         <img
                           src={photo.url}
                           alt={photo.title || "Gallery photo"}
+                          loading="lazy"
                           className="absolute inset-0 w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
                         />
                         
@@ -143,20 +144,20 @@ const Gallery = () => {
                         <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
                         
                         {/* Category Badge */}
-                        <div className="absolute top-3 left-3">
-                          <span className="px-3 py-1 bg-secondary text-secondary-foreground text-xs font-medium rounded-full capitalize">
+                        <div className="absolute top-2 left-2 md:top-3 md:left-3">
+                          <span className="px-2 py-0.5 md:px-3 md:py-1 bg-secondary text-secondary-foreground text-[10px] md:text-xs font-medium rounded-full capitalize">
                             {photo.category}
                           </span>
                         </div>
                         
                         {/* Content - Always visible */}
                         {photo.title && (
-                          <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
-                            <h3 className="font-heading text-xl font-bold mb-1 drop-shadow-lg">
+                          <div className="absolute bottom-0 left-0 right-0 p-2 md:p-6 text-white">
+                            <h3 className="font-heading text-sm md:text-xl font-bold mb-0.5 md:mb-1 drop-shadow-lg line-clamp-1">
                               {photo.title}
                             </h3>
                             {photo.description && (
-                              <p className="text-sm text-white/90 drop-shadow-md">
+                              <p className="text-[11px] md:text-sm text-white/90 drop-shadow-md line-clamp-1 hidden sm:block">
                                 {photo.description}
                               </p>
                             )}
