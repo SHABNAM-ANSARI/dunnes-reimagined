@@ -144,20 +144,20 @@ const Gallery = () => {
                         <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
                         
                         {/* Category Badge */}
-                        <div className="absolute top-3 left-3">
-                          <span className="px-3 py-1 bg-secondary text-secondary-foreground text-xs font-medium rounded-full capitalize">
+                        <div className="absolute top-2 left-2 md:top-3 md:left-3">
+                          <span className="px-2 py-0.5 md:px-3 md:py-1 bg-secondary text-secondary-foreground text-[10px] md:text-xs font-medium rounded-full capitalize">
                             {photo.category}
                           </span>
                         </div>
                         
                         {/* Content - Always visible */}
                         {photo.title && (
-                          <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
-                            <h3 className="font-heading text-xl font-bold mb-1 drop-shadow-lg">
+                          <div className="absolute bottom-0 left-0 right-0 p-2 md:p-6 text-white">
+                            <h3 className="font-heading text-sm md:text-xl font-bold mb-0.5 md:mb-1 drop-shadow-lg line-clamp-1">
                               {photo.title}
                             </h3>
                             {photo.description && (
-                              <p className="text-sm text-white/90 drop-shadow-md">
+                              <p className="text-[11px] md:text-sm text-white/90 drop-shadow-md line-clamp-1 hidden sm:block">
                                 {photo.description}
                               </p>
                             )}
