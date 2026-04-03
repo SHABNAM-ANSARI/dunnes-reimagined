@@ -79,12 +79,11 @@ export default function AdminLogin() {
       return;
     }
 
-    // The useEffect will handle redirect once isAdmin is true
-    // Keep submitting state until redirect happens
-    toast({
-      title: "Signed In",
-      description: "Checking admin privileges...",
-    });
+    // useEffect handles redirect once isAdmin resolves
+    // Set a timeout to stop the spinner if admin check takes too long
+    setTimeout(() => {
+      setIsSubmitting(false);
+    }, 5000);
   };
 
   if (loading) {
