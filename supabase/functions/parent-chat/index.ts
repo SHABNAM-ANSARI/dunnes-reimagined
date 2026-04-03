@@ -56,13 +56,13 @@ serve(async (req) => {
           settings[row.key] = row.value;
         });
         dynamicContext = `\n\nCurrent Contact Information (USE THESE, they are the latest):
-- Principal: ${settings["principal_name"] || "Mrs. Kiran Singh"}
-- Phone 1: ${settings["contact_phone_1"] || "+91 7020981168"}
-- Phone 2: ${settings["contact_phone_2"] || "+91 8527665593"}
+- Principal Name: ${settings["principal_name"] || "Mrs. Kiran Singh"} (DO NOT share her phone number)
+- School Office Phone: ${settings["contact_phone_1"] || "+91 7020981168"}
 - Email: ${settings["contact_email"] || "dunnesschool@gmail.com"}
 - Address: ${settings["school_address"] || "Admiralty House, Wodehouse Road, Colaba, Mumbai - 05"}
 - Education Advisor: ${settings["education_advisor"] || "Mr. Shahbehram Khushrushahi"}
-- Fees Info: ${settings["school_fees_info"] || "Please contact the school office for detailed fee structure."}`;
+- Fees Info: ${settings["school_fees_info"] || "Please contact the school office for detailed fee structure."}
+REMINDER: NEVER reveal the Principal's personal phone number. Keep answers short (2-3 sentences max).`;
       }
     } catch (e) {
       console.error("Error fetching site settings for chatbot:", e);
