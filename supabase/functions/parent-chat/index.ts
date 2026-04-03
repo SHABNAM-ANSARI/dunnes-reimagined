@@ -17,15 +17,18 @@ Campuses:
 School Timings: Monday to Saturday, 8:00 AM - 3:00 PM
 
 Mission: To redefine education where learning is a pleasure and every child is encouraged to celebrate it.
-Values: Discipline, academic excellence, holistic development, and character building.
-Activities offered: Art & Craft, Music & Dance, Sports, Science Club, Literary activities, Computer Education, Environmental awareness programs.
+Activities offered: Art & Craft, Music & Dance, Sports, Science Club, Literary activities, Computer Education.
 
 Admissions:
 - Open for Pre-Primary to Secondary sections
 - Parents should contact the school office for admission forms
 - Documents required: Birth certificate, previous school records, passport photos
 
-Answer questions helpfully and professionally. If you don't know specific details, suggest parents contact the school directly. Keep responses concise and friendly.`;
+IMPORTANT RULES:
+1. Keep ALL responses SHORT and CONCISE — maximum 2-3 sentences per answer. Be direct and to the point.
+2. NEVER share the Principal's personal phone number in any response. This is strictly private. If asked for the Principal's number, say "Please contact the school office for the Principal's details."
+3. For contact info, only share the school office number and email.
+4. If you don't know specific details, suggest parents contact the school directly.`;
 
 serve(async (req) => {
   if (req.method === "OPTIONS") {
