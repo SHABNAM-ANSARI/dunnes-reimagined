@@ -323,10 +323,15 @@ export default function SecretPortal() {
   const handleSaveSettings = async () => {
     setIsSavingSettings(true);
     try {
-      for (const setting of siteSettings) {
-        const newValue = editedSettings[setting.key];
-        if (newValue !== undefined && newValue !== setting.value) {
-          await supabase.from("site_settings").update({ value: newValue }).eq("key", setting.key);
+      const existingKeys = siteSettings.map((s) => s.key);
+      for (const [key, value] of Object.entries(editedSettings)) {
+        if (existingKeys.includes(key)) {
+          const original = siteSettings.find((s) => s.key === key);
+          if (original && value !== original.value) {
+            await supabase.from("site_settings").update({ value }).eq("key", key);
+          }
+        } else if (value) {
+          await supabase.from("site_settings").insert({ key, value });
         }
       }
       toast({ title: "Settings Saved", description: "All changes have been saved. They will reflect across the website." });
@@ -354,12 +359,18 @@ export default function SecretPortal() {
   };
 
   const settingLabels: Record<string, string> = {
+    hero_headline: "Hero Headline",
+    hero_subheadline: "Hero Sub-headline",
+    hero_description: "Hero Description",
+    hero_bg_image: "Hero Background Image URL",
+    instagram_url: "Instagram Profile URL",
     school_address: "School Address",
     contact_phone_1: "Contact Phone 1",
     contact_phone_2: "Contact Phone 2",
     contact_email: "Contact Email",
     announcement_ticker: "Announcement Ticker Text",
     principal_name: "Principal Name",
+    principal_contact: "Principal Contact Number",
     education_advisor: "Education Advisor",
     school_fees_info: "School Fees Information",
   };
@@ -600,7 +611,7 @@ export default function SecretPortal() {
                     <Label className="text-sm font-semibold">
                       {settingLabels[setting.key] || setting.key}
                     </Label>
-                    {setting.key === "school_address" || setting.key === "school_fees_info" ? (
+                    {["school_address", "school_fees_info", "hero_description"].includes(setting.key) ? (
                       <Textarea
                         value={editedSettings[setting.key] || ""}
                         onChange={(e) => handleSettingChange(setting.key, e.target.value)}
