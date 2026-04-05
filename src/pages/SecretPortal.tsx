@@ -611,7 +611,7 @@ export default function SecretPortal() {
                     <Label className="text-sm font-semibold">
                       {settingLabels[setting.key] || setting.key}
                     </Label>
-                    {setting.key === "school_address" || setting.key === "school_fees_info" ? (
+                    {["school_address", "school_fees_info", "hero_description"].includes(setting.key) ? (
                       <Textarea
                         value={editedSettings[setting.key] || ""}
                         onChange={(e) => handleSettingChange(setting.key, e.target.value)}
