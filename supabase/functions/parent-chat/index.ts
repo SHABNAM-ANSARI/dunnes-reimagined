@@ -32,10 +32,8 @@ IMPORTANT RULES:
 4. If you don't know specific details, suggest parents contact the school directly.`;
 
 serve(async (req) => {
-  const cors = getCorsHeaders(req);
-
   if (req.method === "OPTIONS") {
-    return new Response("ok", { status: 200, headers: cors });
+    return new Response("ok", { status: 200, headers: corsHeaders });
   }
 
   try {
