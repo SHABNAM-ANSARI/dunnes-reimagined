@@ -11,7 +11,7 @@ export function Footer() {
     "https://www.instagram.com/dunnes_institute_icse_school?utm_source=qr&igsh=ZHN1dW41b3gwMDZm"
   );
   const principalName = getSetting("principal_name", "Mrs. Kiran Singh");
-  const contactPhone = getSetting("principal_contact", "+91 7020981168");
+  const contactPhone = getSetting("School_contact", "+91 7020981168");
 
   return (
     <footer className="bg-primary text-primary-foreground">
