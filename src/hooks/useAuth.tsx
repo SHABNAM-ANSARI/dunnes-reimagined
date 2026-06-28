@@ -55,7 +55,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const ADMIN_EMAILS = [
     "admin@dunnes-institute.org",
     "dunnesschool@gmail.com",
-    "shabnamsayye6@gmail.com"
+    "shabnamsayyed6@gmail.com"
   ];
 
   const checkAdminRole = async (userId: string, userEmail?: string) => {
